@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>位置切换</title>
+    <style>
+        ul{
+            border: 1px solid black;
+            width: 100px;
+            height: 150px;
+            float: left;
+            display: block;
+            line-height: 2;
+            position:relative;
+            margin: 20px 50px;
+            padding: 30px;
+        }
+
+        li{
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <ul id="ul1">
+            <li><input type="checkbox" onclick="clc(this)"/>羽毛球</li>
+            <li><input type="checkbox" onclick="clc(this)"/>排球</li>
+            <li><input type="checkbox" onclick="clc(this)"/>橄榄球</li>
+            <li><input type="checkbox" onclick="clc(this)"/>篮球</li>
+            <li><input type="checkbox" onclick="clc(this)"/>乒乓球</li>
+        </ul>
+        <ul id="ul2"></ul>
+    </div>
+    <script>
+        var ul1 = document.querySelector("#ul1");
+        var ul2 = document.querySelector("#ul2");
+        function clc(a){
+           var li = a.parentNode;
+            if(li.parentNode.id=="ul1"){
+                ul1.removeChild(li);
+                ul2.appendChild(li);
+            }else{
+                ul2.removeChild(li);
+                ul1.appendChild(li);
+            }
+        }
+    </script>
+</body>
+</html>

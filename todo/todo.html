@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+<div class="navbar">
+    <i class="fa fa-tasks"></i> TodoList
+</div>
+
+<div class="container">
+    <div class="input-warpper">
+        <input type="text" class="newtodo" id="input-newtodo" placeholder="+ 添加一个任务">
+    </div>
+    <ul class="list" id="newList">
+
+    </ul>
+    <a href="#" class="donetasknum"><span id="finishNum">2</span>个已完成任务</a>
+    <ul class="list" id="list">
+
+    </ul>
+</div>
+<script>
+    var newlist = document.querySelector("#newList");
+    var list = document.querySelector("#list");
+    var finishNum = document.querySelector("#finishNum");
+    var input = document.querySelector("#input-newtodo");
+    var data =[
+        {todo:"学习专业课",finish:false},
+        {todo:"高数考试",finish:false},
+        {todo:"软件开发",finish:true}
+    ];
+    function init(){
+        for(var o in data){
+            toLi(data[o]);
+        }
+        loadFinish();
+    }
+    function loadFinish(){
+        var total = 0;
+        for(var i in data){
+            if(data[i].finish){
+                total++
+            }
+        }
+        finishNum.innerText = total.toString();
+    }
+    function toLi(obj){
+        var li = document.createElement("li");
+        var div = document.createElement("div");
+        var a = document.createElement("a");
+        var aSpan = document.createElement("span");
+        var span = document.createElement("span");
+        a.appendChild(aSpan);
+        div.appendChild(span);
+        div.appendChild(a);
+        li.appendChild(div);
+        aSpan.setAttribute("class","checkbox");
+        a.setAttribute("herf","javascript:;");
+        a.setAttribute("class","ck-warpper");
+        span.setAttribute("class","text");
+        span.innerText = obj.todo;
+        div.setAttribute("class","task-warpper");
+
+        if(obj.finish){
+            li.setAttribute("class","done");
+            list.appendChild(li);
+        }else{
+            newlist.appendChild(li);
+        }
+    }
+    init();
+     input.onkeyup = function(event){
+         if(event.keyCode==13){
+             var text = input.value;
+             if(text.length==0){
+                 return;
+             }
+             input.value = "";
+             var  tObj = {todo:text,finish:false};
+             data.push(tObj);
+             toLi(tObj);
+         }
+     }
+    document.onclick =function(event){
+        var target = event.target;
+        if(target.getAttribute("class")=="checkbox"){
+            var li = target.parentElement.parentElement.parentElement;
+            console.log(li);
+            if(li.getAttribute("class")=="done"){
+                li.removeAttribute("class");
+                list.removeChild(li);
+                var  text = li.querySelector(".text").innerText;
+                changeFinish(text);
+                newlist.appendChild(li);
+            }else{
+                li.setAttribute("class","done");
+                newlist.removeChild(li);
+                var  text = li.querySelector(".text").innerText;
+                changeFinish(text);
+                list.appendChild(li);
+            }
+            loadFinish();
+        }
+    }
+    function changeFinish(text){
+        for(var i in data){
+           if(data[i].todo==text){
+               data[i].finish=!data[i].finish;
+           }
+        }
+    }
+
+</script>
+</body>
+</html>
